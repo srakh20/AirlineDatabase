@@ -59,12 +59,19 @@ def flight_detail(flight_number, departure_date):
     GROUP BY a.capacity
     """
 
+    query = """
+    SELECT f.flight_number, f.departure_date, a.capacity, a.capacity-count(pid) as available_seats
+    FROM flight f JOIN aircraft a ON f.plane_type=a.plane_type
+    JOIN booking b ON f.flight_number=b.flight_number AND f.departure_date=b.departure_date
+    WHERE f.flight_number = %s and f.departure_date=%s
+    GROUP BY f.flight_number, f.departure_date, a.capacity;
+    """
+
     cur.execute(query, (flight_number, departure_date))
     result = cur.fetchone()
 
-    capacity = result[0]
-    booked = result[1]
-    available = capacity - booked
+    capacity = result[2]
+    available = result[3]
 
     conn.close()
 
@@ -79,4 +86,3 @@ def flight_detail(flight_number, departure_date):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
