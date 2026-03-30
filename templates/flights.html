@@ -1,0 +1,27 @@
+<h2>Flights</h2>
+
+<table border="1">
+<tr>
+    <th>Flight</th>
+    <th>Date</th>
+    <th>From</th>
+    <th>To</th>
+    <th>Time</th>
+</tr>
+
+{% for f in flights %}
+<tr>
+    <td>
+        <a href="/flight/{{ f[0] }}/{{ f[1] }}">
+            {{ f[0] }}
+        </a>
+    </td>
+    <td>{{ f[1] }}</td>
+    <td>{{ f[2] }}</td>
+    <td>{{ f[3] }}</td>
+    <td>{{ f[4] }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
