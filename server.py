@@ -48,18 +48,6 @@ def flight_detail(flight_number, departure_date):
     cur = conn.cursor()
 
     query = """
-    SELECT a.capacity, COUNT(b.pid)
-    FROM Flight f
-    JOIN Aircraft a ON f.plane_type = a.plane_type
-    LEFT JOIN Booking b
-     ON f.flight_number = b.flight_number
-    AND f.departure_date = b.departure_date
-    WHERE f.flight_number = %s
-     AND f.departure_date = %s
-    GROUP BY a.capacity
-    """
-
-    query = """
     SELECT f.flight_number, f.departure_date, a.capacity, a.capacity-count(pid) as available_seats
     FROM flight f JOIN aircraft a ON f.plane_type=a.plane_type
     LEFT JOIN booking b ON f.flight_number=b.flight_number AND f.departure_date=b.departure_date
